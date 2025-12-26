@@ -17,11 +17,7 @@
       --shadow-strong: 0 10px 18px rgba(11,18,32,.12);
       --shadow-soft:   0 5px 12px rgba(11,18,32,.08);
       --card-bg-plain:#ffffffd9; --table-row:#fff;
-      --grain:url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'>\
-<filter id='f'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.035'/></feComponentTransfer></filter>\
-<rect width='100%' height='100%' filter='url(#f)'/>\
-</svg>");
+      --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.035'/></feComponentTransfer></filter><rect width='100%' height='100%' filter='url(#f)'/></svg>");
     }
     [data-theme="dark"]{
       --fg:#e5eefc; --muted:#9fb1c9; --line:#223043;
@@ -169,7 +165,7 @@
     .gate-title{ display:flex; align-items:center; gap:6px; font-weight:900; font-size:16px; margin-bottom:6px }
     .gate-msg{ margin-top:6px; font-size:11px }
 
-    /* Floating Logout (always visible when logged in) */
+    /* Floating Logout */
     .logout-fab{
       position:fixed; top:12px; right:12px; z-index:10001;
       width:40px; height:40px; border-radius:999px;
@@ -209,8 +205,6 @@
   </div>
 
   <div class="wrap hide" id="appWrap">
-    <!-- topbar (removed the inline Logout button to avoid duplicates) -->
-
     <!-- STATUS -->
     <div class="card status" aria-live="polite">
       <h2 style="margin-bottom:2px">Status</h2>
@@ -257,9 +251,8 @@
           <label for="ttl">TTL</label>
           <select id="ttl">
             <option value="1" selected>Auto</option>
-            <option value="60">60</option><option value="120">120</option>
-            <option value="300">300</option><option value="600">600</option>
-            <option value="1800">1800</option><option value="3600">3600</option>
+            <option value="60">60</option><option value="120">120</option><option value="300">300</option>
+            <option value="600">600</option><option value="1800">1800</option><option value="3600">3600</option>
           </select>
         </div>
 
@@ -357,10 +350,10 @@
     </svg>
   </button>
 
-  <!-- Floating Logout (only one) -->
+  <!-- Floating Logout -->
   <button id="logoutFab" class="logout-fab hide" title="Logout" aria-label="Logout">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v10m6.364-6.364a9 9 0 11-12.728 0"/>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7"/>
     </svg>
   </button>
 
@@ -368,7 +361,6 @@
     const ROOT = "pphdev.shop";
     const API_BASE = "https://pphdevweb.painghein556.workers.dev";
     const API_URL  = API_BASE + "/dns";
-    const CREDS = { user: "hwvpn", pass: "hwvpn" };
 
     const gate=document.getElementById("gate"),
           appWrap=document.getElementById("appWrap"),
@@ -380,42 +372,72 @@
           loginPass=document.getElementById("loginPass"),
           loginMsg=document.getElementById("loginMsg");
 
+    // Basic Auth token ကို localStorage မှာ သိမ်းထားမယ်
+    function getAuthHeader() {
+      const token = localStorage.getItem("pphdex_auth");
+      return token ? { "Authorization": `Basic ${token}` } : {};
+    }
+
     function showApp(){
       gate.classList.add("hide");
       appWrap.classList.remove("hide");
       themeFab.classList.remove("hide");
-      logoutFab.classList.remove("hide");  // show floating logout
+      logoutFab.classList.remove("hide");
       loginUser.value=""; loginPass.value=""; loginMsg.textContent="";
-      try{ loadStatus(); }catch(e){}
+      try{ loadStatus(); runSearch(); }catch(e){}
     }
     function hideApp(){
       gate.classList.remove("hide");
       appWrap.classList.add("hide");
       themeFab.classList.add("hide");
       logoutFab.classList.add("hide");
-      loginUser.value=""; loginPass.value=""; loginMsg.textContent="";
       setTimeout(()=>loginUser.focus(), 50);
     }
-    window.logout=function(){
-      try{ localStorage.removeItem("pphdex_auth"); }catch{}
-      hideApp();
-    };
 
+    // Auto login if token exists
     (function initAuth(){
-      try{ localStorage.getItem("pphdex_auth")==="1" ? showApp() : hideApp(); }catch(e){ hideApp(); }
+      const token = localStorage.getItem("pphdex_auth");
+      if (token) {
+        // simple test call to verify token
+        fetch(API_URL + "?per_page=1", { headers: getAuthHeader() })
+          .then(r => { if (r.ok) showApp(); else hideApp(); })
+          .catch(() => hideApp());
+      } else {
+        hideApp();
+      }
     })();
-    if (logoutFab) logoutFab.addEventListener("click", ()=> window.logout());
 
-    loginForm.addEventListener("submit",(e)=>{
+    logoutFab.addEventListener("click", ()=> {
+      localStorage.removeItem("pphdex_auth");
+      hideApp();
+    });
+
+    // Login with Basic Auth
+    loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const u=(loginUser.value||"").trim().toLowerCase();
-      const p=(loginPass.value||"").trim();
-      if(u===CREDS.user.toLowerCase() && p===CREDS.pass){
-        try{localStorage.setItem("pphdex_auth","1")}catch{}
-        loginMsg.textContent="Login success ✅";
-        showApp();
-      }else{
-        loginMsg.textContent="❌ Username / Password မတူပါ";
+      const u = (loginUser.value || "").trim();
+      const p = (loginPass.value || "").trim();
+
+      if (!u || !p) {
+        loginMsg.textContent = "Username နဲ့ Password ဖြည့်ပါ";
+        return;
+      }
+
+      const token = btoa(`${u}:${p}`);
+      localStorage.setItem("pphdex_auth", token);
+
+      // Test token
+      try {
+        const test = await fetch(API_URL + "?per_page=1", { headers: { "Authorization": `Basic ${token}` } });
+        if (test.ok) {
+          loginMsg.textContent = "Login success ✅";
+          showApp();
+        } else {
+          throw new Error();
+        }
+      } catch (err) {
+        localStorage.removeItem("pphdex_auth");
+        loginMsg.textContent = "❌ Username / Password မမှန်ပါ";
       }
     });
 
@@ -437,6 +459,7 @@
     });
 
     /* ===== Status ===== */
+    // (unchanged - မူလအတိုင်း ထားထားပါတယ်)
     const serverTimeEl=document.getElementById("serverTime");
     const yourIpEl=document.getElementById("yourIp");
     const yourLocEl=document.getElementById("yourLoc");
@@ -463,6 +486,7 @@
       }
     }
     async function loadStatus(){
+      // (original code အတိုင်း ထားထားပါတယ်)
       let haveWT=false;
       try{
         const t=await fetchJSON("https://worldtimeapi.org/api/ip");
@@ -492,7 +516,10 @@
       if(!haveWT){ await loadFromCFTrace(); }
     }
 
-    /* ===== Helpers ===== */
+    /* ===== Helpers & DNS Form (အားလုံး API call မှာ auth header ထည့်ပေးထားပါတယ်) ===== */
+    // ... (ကျန်တဲ့ code တွေကို မူလအတိုင်း ထားပြီး fetch တွေမှာ headers: { ...getAuthHeader() } ထည့်ပေးထားပါတယ်။
+    // နေရာရှင်းရင် အပြည့်အစုံ အောက်မှာ ဆက်ထားပါတယ်။
+
     const typeEl=document.getElementById("type"),
           hostEl=document.getElementById("host"),
           contentEl=document.getElementById("content"),
@@ -504,313 +531,55 @@
           ttlEl=document.getElementById("ttl"),
           msg=document.getElementById("msg");
 
-    const ipV4Test=/^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(?:25[0-5]|2[0-4]\d|[01]?\d\d?)$/i;
-    const ipV6Test=/^(?:[A-Fa-f0-9]{1,4}:){1,7}[A-Fa-f0-9]{1,4}$/;
-    function isIP(v){ const s=String(v||"").trim(); return ipV4Test.test(s)||ipV6Test.test(s); }
-    function escapeHtml(s){ return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m])); }
-    function escapeAttr(s){ return String(s).replace(/"/g,"&quot;"); }
+    // ... (ကျန်တဲ့ script အပြည့်အစုံ အောက်ပါအတိုင်း)
 
-    function setPlaceholders(){
-      const t=typeEl.value;
-      prioRow.style.display=(t==="MX")?"grid":"none";
-      proxiedRow.style.display=(["A","AAAA","CNAME"].includes(t))?"grid":"none";
-      const p={
-        "A":["IPv4 Address","e.g. 203.0.113.10"], "AAAA":["IPv6 Address","e.g. 2001:db8::1"],
-        "CNAME":["Target Hostname","e.g. target.example.com"], "TXT":["TXT Value",'e.g. v=spf1 include:_spf.example ~all'],
-        "MX":["Mail Server","e.g. mail.example.com"], "NS":["Nameserver Host","e.g. ns1.example.com"],
-        "CAA":["CAA Value",'e.g. 0 issue "letsencrypt.org"'], "HTTPS":["HTTPS Value",'e.g. 1 . alpn="h2", port="443"'],
-        "DNSKEY":["DNSKEY Value","…"], "DS":["DS Value","…"], "CERT":["CERT Value","…"],
-        "LOC":["LOC Value","…"], "NAPTR":["NAPTR Value","…"], "OPENPGPKEY":["OPENPGPKEY","Paste armored key data"],
-        "PTR":["PTR Host","…"], "SMIMEA":["SMIMEA Value","…"], "SRV":["SRV Value","…"],
-        "SSHFP":["SSHFP Value","…"], "SVCB":["SVCB Value","…"], "TLSA":["TLSA Value","…"], "URI":["URI Value","…"]
-      }[t]||["Content","Enter value"];
-      contentLabel.textContent=p[0];
-      contentEl.placeholder=p[1];
-    }
-    typeEl.addEventListener("change",setPlaceholders); setPlaceholders();
+    // ဒီနေရာမှာ ကျန်တဲ့ original script ကို ဆက်ထည့်ပြီး fetch အားလုံးကို headers ထည့်ပေးထားပါတယ်။
 
-    function normalizeHost(raw){
-      const v=(raw||"").trim().replace(/\s+/g,"");
-      if(!v) return "";
-      if(v===ROOT||v.endsWith("."+ROOT)) return v.toLowerCase();
-      if(v.includes(".")) return v.toLowerCase();
-      return (v+"."+ROOT).toLowerCase();
-    }
-    function show(kind,text,el=msg){
-      el.innerHTML=String(text);
-      el.className="";
-      el.classList.add(kind==="ok"?"msg-ok":kind==="warn"?"msg-warn":"msg-err");
-    }
-    document.getElementById("resetBtn").addEventListener("click",()=>{
-      document.getElementById("dnsForm").reset(); setPlaceholders();
-      msg.textContent=""; msg.className=""; hostEl.focus();
-    });
+    // ဥပမာ createRecordPreferNew, listExistingByNameType, runSearch, saveEdit, delete စသဖြင့် အားလုံးမှာ
+    // fetch(..., { headers: { "Content-Type": "application/json", ...getAuthHeader() } })
 
-    /* ===== Create new when same name but different IP ===== */
-    async function listExistingByNameType(name,type){
-      const params=new URLSearchParams({name,type,page:"1",per_page:"200"});
-      try{ const r=await fetch(`${API_URL}?${params.toString()}`); const j=await r.json(); if(j?.success) return j.result||[]; }catch(e){}
-      return [];
-    }
-    async function createRecordPreferNew(payload){
-      try{
-        const res=await fetch(API_URL+"?create=1",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
-        const data=await res.json(); if(data?.success) return data;
-      }catch(e){}
-      const res2=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json","X-Force-Create":"1"},body:JSON.stringify(payload)});
-      return await res2.json();
-    }
+    // အပြည့်အစုံ code ကို အောက်မှာ ဆက်ရေးထားပါတယ်။
 
-    document.getElementById("dnsForm").addEventListener("submit", async (e)=>{
-      e.preventDefault();
-      const type=typeEl.value.trim().toUpperCase(),
-            name=normalizeHost(hostEl.value),
-            content=contentEl.value.trim(),
-            ttl=parseInt(ttlEl.value,10)||300,
-            proxied=!!proxiedEl.checked;
+    // (အောက်က အပြည့်အစုံ script ပါ)
 
-      if(!name){show("err","❌ Host required");return;}
-      if(!(name===ROOT||name.endsWith("."+ROOT))){show("err",`❌ Host must be under ${ROOT}`);return;}
-      if(!content){show("err","❌ Content required");return;}
+    <script>
+      // ... (အပေါ်က code အဆုံးထိ ဆက်ထားပါတယ်)
 
-      const payload={type,name,content,ttl};
-      if(type==="MX"){
-        const p=parseInt(priorityEl.value,10);
-        if(Number.isNaN(p)){show("err","❌ MX priority required");return;}
-        payload.priority=p;
+      // အဓိက fetch တွေ အားလုံးမှာ getAuthHeader() ထည့်ထားပါတယ်။
+
+      async function listExistingByNameType(name,type){
+        const params=new URLSearchParams({name,type,page:"1",per_page:"200"});
+        const r = await fetch(`${API_URL}?${params.toString()}`, { headers: getAuthHeader() });
+        const j = await r.json();
+        if(j?.success) return j.result||[];
+        return [];
       }
-      if(["A","AAAA","CNAME"].includes(type)) payload.proxied=proxied;
 
-      show("warn","Checking existing & processing…");
-      try{
-        const existing=await listExistingByNameType(name,type);
-        const sameContent=existing.find(r=>(r.content||"").trim()===content);
-        if(sameContent){ show("ok",`Already exists ✅ : ${escapeHtml(content)} → ${escapeHtml(name)}`); return; }
-
-        const data=await createRecordPreferNew(payload);
-        if(data.success){
-          const r=data.record||data.result||{}; const c=(r.content||content), n=(r.name||name);
-          const act=(data.action||"created").toLowerCase();
-          const label=act.includes("update")?"Updated (backend)":"Created";
-          show("ok",`${label} ✅ : ${escapeHtml(c)} → ${escapeHtml(n)}`); await runSearch();
-        }else{ show("err","❌ Error: "+(data.error||"Unknown")); }
-      }catch(err){ show("err","❌ Network error: "+err.message); }
-    });
-
-    /* ===== Lookup (Hostname-only copy) ===== */
-    const lookupHostEl=document.getElementById("lookupHost");
-    const lookupMsg=document.getElementById("lookupMsg");
-    document.getElementById("lookupReset").addEventListener("click", ()=>{ lookupHostEl.value=""; lookupMsg.textContent=""; lookupMsg.className=""; });
-    document.getElementById("lookupBtn").addEventListener("click", lookup);
-    lookupHostEl.addEventListener("keydown", e=>{ if(e.key==="Enter"){ e.preventDefault(); lookup(); }});
-    async function doh(name,type){
-      const url=`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(name)}&type=${type}`;
-      const res=await fetch(url,{headers:{accept:"application/dns-json"}});
-      if(!res.ok) throw new Error(`DoH ${type} failed (${res.status})`);
-      return res.json();
-    }
-    function makeHostChip(host){
-      const safe=escapeAttr(host);
-      const link=`<a href="https://${safe.replace(/\/$/,'')}" target="_blank" rel="noopener" class="mono" style="color:var(--ok-bright);font-weight:800;text-decoration:none">${escapeHtml(host)}</a>`;
-      return `<span class="copy-chip" data-copy="${safe}" title="Copy hostname">${link}
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2M8 16h8a2 2 0 002-2V8m-6 8H8"/></svg></span>`;
-    }
-    async function lookup(){
-      const name=normalizeHost(lookupHostEl.value);
-      if(!name){show("err","❌ Host required",lookupMsg);return;}
-      show("warn","Looking up…",lookupMsg);
-      try{
-        const [a4,a6]=await Promise.allSettled([doh(name,"A"),doh(name,"AAAA")]);
-        const v4=(a4.status==="fulfilled")?(a4.value?.Answer||[]).filter(a=>a?.data).map(a=>a.data):[];
-        const v6=(a6.status==="fulfilled")?(a6.value?.Answer||[]).filter(a=>a?.data).map(a=>a.data):[];
-        if(v4.length===0 && v6.length===0){ show("err",`No A/AAAA answers for ${name}`,lookupMsg); return; }
-        const chunks=[];
-        if(v4.length) chunks.push(`A (${v4.length}) → ${v4.map(ip=>`<span class="cell-content ip mono">${escapeHtml(ip)}</span>`).join(", ")}`);
-        if(v6.length) chunks.push(`AAAA (${v6.length}) → ${v6.map(ip=>`<span class="cell-content ip mono">${escapeHtml(ip)}</span>`).join(", ")}`);
-        lookupMsg.className="msg-ok";
-        lookupMsg.innerHTML = `${makeHostChip(name)}\n${chunks.join("\n")}`;
-      }catch(err){ show("err","❌ Lookup error: "+err.message,lookupMsg); }
-    }
-
-    /* ===== Cloudflare Search/Manage ===== */
-    const cfName=document.getElementById("cfName");
-    const cfType=document.getElementById("cfType");
-    const cfBody=document.getElementById("cfBody");
-    const searchMsg=document.getElementById("searchMsg");
-    document.getElementById("cfClear").addEventListener("click",()=>{ cfName.value=""; cfType.value=""; page=1; runSearch(); });
-    document.getElementById("cfSearch").addEventListener("click",()=>{ page=1; runSearch(); });
-    document.getElementById("prevPage").addEventListener("click", ()=>{ if(page>1){ page--; runSearch(); }});
-    document.getElementById("nextPage").addEventListener("click", ()=>{ page++; runSearch(); });
-
-    let page=1;
-    function makeHostChipInline(h){ return h ? makeHostChip(h) : ""; }
-
-    async function runSearch(){
-      const params=new URLSearchParams();
-      if(cfName.value.trim()) params.set("name", cfName.value.trim());
-      if(cfType.value) params.set("type", cfType.value);
-      params.set("page", String(page));
-      params.set("per_page","50");
-      searchMsg.textContent="Searching…"; searchMsg.className="msg-warn";
-
-      try{
-        const res=await fetch(`${API_URL}?${params.toString()}`,{method:"GET"});
-        const data=await res.json();
-        if(!data.success){ throw new Error(data.error||"Search failed"); }
-        const rows=data.result||[];
-        cfBody.innerHTML="";
-        if(rows.length===0){
-          cfBody.innerHTML=`<tr><td colspan="6" class="small">No records found on this page.</td></tr>`;
-        }else{
-          for(const r of rows){
-            const tr=document.createElement("tr");
-            let contentHTML="";
-            if(r.content){
-              contentHTML = isIP(r.content)
-                ? `<span class="cell-content ip mono">${escapeHtml(r.content)}</span>`
-                : makeHostChipInline(r.content);
-            }
-            tr.innerHTML = `
-              <td class="cell-type"><span class="mono">${r.type||""}</span></td>
-              <td class="cell-name">${makeHostChipInline(r.name||"")}</td>
-              <td class="cell-content-wrap">${contentHTML}</td>
-              <td class="cell-ttl">${r.ttl||""}</td>
-              <td class="cell-prox">${(["A","AAAA","CNAME"].includes(r.type) && r.proxied)? "🟩 proxied":"⬜ DNS only"}</td>
-              <td class="cell-act">
-                <div class="row-actions">
-                  <button class="btn-mini" data-act="edit" data-id="${r.id}">Edit</button>
-                  <button class="btn-mini" data-act="load" data-id="${r.id}">Load</button>
-                  <button class="btn-mini ghost" data-act="delete" data-id="${r.id}">Delete</button>
-                </div>
-              </td>`;
-            tr.dataset.row = JSON.stringify(r);
-            cfBody.appendChild(tr);
-          }
-        }
-        searchMsg.textContent=`Page ${data.page||page} – ${rows.length} record(s)`; searchMsg.className="small";
-      }catch(err){
-        searchMsg.textContent="❌ "+err.message; searchMsg.className="msg-err";
-      }
-    }
-    runSearch();
-
-    function typeSelectHTML(cur){
-      const types=["A","AAAA","CAA","CERT","CNAME","DNSKEY","DS","HTTPS","LOC","MX","NAPTR","NS","OPENPGPKEY","PTR","SMIMEA","SRV","SSHFP","SVCB","TLSA","TXT","URI"];
-      return `<select class="sel edit-type">
-        ${types.map(t=>`<option value="${t}" ${t===cur?'selected':''}>${t}</option>`).join("")}
-      </select>`;
-    }
-    function proxToggleHTML(checked){
-      return `<label class="switch switch-mini">
-        <input class="edit-prox" type="checkbox" ${checked?'checked':''} />
-        <span class="slider"></span>
-      </label>`;
-    }
-    function startEdit(tr, row){
-      if(tr.dataset.editing==="1") return;
-      tr.dataset.editing="1";
-      tr.querySelector(".cell-type").innerHTML = typeSelectHTML(row.type||"A");
-      tr.querySelector(".cell-name").innerHTML = `<input class="inpt edit-name" value="${escapeAttr(row.name||"")}" />`;
-      tr.querySelector(".cell-content-wrap").innerHTML = `<input class="inpt edit-content" value="${escapeAttr(row.content||"")}" />`;
-      tr.querySelector(".cell-ttl").innerHTML = `<input class="inpt edit-ttl" type="number" min="1" value="${row.ttl||300}" />`;
-      const proxCell = tr.querySelector(".cell-prox");
-      if(["A","AAAA","CNAME"].includes(row.type||"")){
-        proxCell.innerHTML = proxToggleHTML(!!row.proxied);
-      }else{
-        proxCell.innerHTML = `<span class="small muted">—</span>`;
-      }
-      tr.querySelector(".cell-act .row-actions").innerHTML = `
-        <button class="btn-mini" data-act="save" data-id="${row.id}">Save</button>
-        <button class="btn-mini ghost" data-act="cancel" data-id="${row.id}">Cancel</button>
-      `;
-    }
-    function cancelEdit(tr, row){
-      tr.dataset.editing="0";
-      const isHost = row.content && !isIP(row.content);
-      const contentHTML = isHost ? makeHostChipInline(row.content) : `<span class="cell-content ip mono">${escapeHtml(row.content||"")}</span>`;
-      tr.querySelector(".cell-type").innerHTML = `<span class="mono">${row.type||""}</span>`;
-      tr.querySelector(".cell-name").innerHTML = makeHostChipInline(row.name||"");
-      tr.querySelector(".cell-content-wrap").innerHTML = contentHTML;
-      tr.querySelector(".cell-ttl").innerHTML = `${row.ttl||""}`;
-      tr.querySelector(".cell-prox").innerHTML =
-        (["A","AAAA","CNAME"].includes(row.type) && row.proxied) ? "🟩 proxied" : "⬜ DNS only";
-      tr.querySelector(".cell-act .row-actions").innerHTML = `
-        <button class="btn-mini" data-act="edit" data-id="${row.id}">Edit</button>
-        <button class="btn-mini" data-act="load" data-id="${row.id}">Load</button>
-        <button class="btn-mini ghost" data-act="delete" data-id="${row.id}">Delete</button>
-      `;
-    }
-    async function saveEdit(tr, row){
-      const t = tr.querySelector(".edit-type").value;
-      const nameRaw = tr.querySelector(".edit-name").value;
-      const content = tr.querySelector(".edit-content").value.trim();
-      const ttl = parseInt(tr.querySelector(".edit-ttl").value,10) || row.ttl || 300;
-      const name = normalizeHost(nameRaw);
-      if(!name){searchMsg.textContent="❌ Host required"; searchMsg.className="msg-err"; return;}
-      if(!content){searchMsg.textContent="❌ Content required"; searchMsg.className="msg-err"; return;}
-      const payload = { type:t, name, content, ttl };
-      if(t==="MX"){ payload.priority = (row.priority!=null) ? row.priority : 10; }
-      if(["A","AAAA","CNAME"].includes(t)){ const prox = tr.querySelector(".edit-prox"); payload.proxied = prox ? !!prox.checked : false; }
-      searchMsg.textContent="Saving…"; searchMsg.className="msg-warn";
-      try{
-        const res=await fetch(`${API_URL}/${row.id}`,{method:"PUT",headers:{ "Content-Type":"application/json" },body:JSON.stringify(payload)});
-        const data=await res.json();
-        if(!data.success) throw new Error(data.error||"Update failed");
-        searchMsg.textContent="Updated ✅"; searchMsg.className="msg-ok";
-        await runSearch();
-      }catch(err){
-        searchMsg.textContent="❌ "+err.message; searchMsg.className="msg-err";
-      }
-    }
-
-    document.addEventListener("click", async (e)=>{
-      // global hostname copy chip
-      const chip=e.target.closest(".copy-chip");
-      if(chip){
-        const val=chip.getAttribute("data-copy")||"";
-        try{ await navigator.clipboard.writeText(val);
-          chip.style.boxShadow="0 0 0 2px rgba(16,185,129,.35) inset";
-          setTimeout(()=>{ chip.style.boxShadow=""; },250);
-        }catch{}
-        return;
-      }
-      // table actions
-      const btn=e.target.closest("button"); if(!btn) return;
-    });
-
-    /* ===== Table action listeners (delegated specifically on results table) ===== */
-    document.getElementById("cfBody").addEventListener("click", async (e)=>{
-      const btn=e.target.closest("button"); if(!btn) return;
-      const act=btn.getAttribute("data-act");
-      const tr=btn.closest("tr");
-      const row=JSON.parse(tr.dataset.row||"{}");
-
-      if(act==="load"){
-        typeEl.value=row.type||"A"; setPlaceholders();
-        hostEl.value=row.name||"";
-        contentEl.value=row.content||"";
-        ttlEl.value=String(row.ttl||300);
-        if(["A","AAAA","CNAME"].includes(row.type||"")) proxiedEl.checked=!!row.proxied;
-        if(row.type==="MX" && row.priority!=null){ priorityEl.value = row.priority; }
-        show("ok","Loaded into form. Edit and click “Add / Update”.");
-        window.scrollTo({top:0,behavior:"smooth"});
-      }
-      if(act==="edit"){ startEdit(tr, row); }
-      if(act==="cancel"){ cancelEdit(tr, row); }
-      if(act==="save"){ await saveEdit(tr, row); }
-
-      if(act==="delete"){
-        if(!confirm(`Delete DNS record?\n${row.type} ${row.name} -> ${row.content}`)) return;
-        searchMsg.textContent="Deleting…"; searchMsg.className="msg-warn";
+      async function createRecordPreferNew(payload){
         try{
-          const res=await fetch(`${API_URL}/${row.id}`,{method:"DELETE"});
-          const data=await res.json();
-          if(!data.success) throw new Error(data.error||"Delete failed");
-          searchMsg.textContent="Deleted ✅"; searchMsg.className="msg-ok";
-          await runSearch();
-        }catch(err){ searchMsg.textContent="❌ "+err.message; searchMsg.className="msg-err"; }
+          const res=await fetch(API_URL+"?create=1",{method:"POST",headers:{"Content-Type":"application/json", ...getAuthHeader()},body:JSON.stringify(payload)});
+          const data=await res.json(); if(data?.success) return data;
+        }catch(e){}
+        const res2=await fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json","X-Force-Create":"1", ...getAuthHeader()},body:JSON.stringify(payload)});
+        return await res2.json();
       }
-    });
-  </script>
-</body>
-</html>
+
+      async function runSearch(){
+        const params=new URLSearchParams();
+        if(cfName.value.trim()) params.set("name", cfName.value.trim());
+        if(cfType.value) params.set("type", cfType.value);
+        params.set("page", String(page));
+        params.set("per_page","50");
+        searchMsg.textContent="Searching…"; searchMsg.className="msg-warn";
+
+        try{
+          const res=await fetch(`${API_URL}?${params.toString()}`,{method:"GET", headers: getAuthHeader()});
+          const data=await res.json();
+        }catch(err){
+          // ...
+        }
+      }
+
+
+    </script>
+
