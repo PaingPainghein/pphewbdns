@@ -15,7 +15,7 @@
       --card:#ffffffc9; --card-tint:#f8fafc;
       --tri: linear-gradient(90deg, #14b8a6 0%, #06b6d4 50%, #6366f1 100%);
       --shadow-strong: 0 10px 18px rgba(11,18,32,.12);
-      --shadow-soft:   0 5px 12px rgba(11,18,32,.08);
+      --shadow-soft: 0 5px 12px rgba(11,18,32,.08);
       --table-row:#fff;
       --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><filter id='f'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/><feComponentTransfer><feFuncA type='linear' slope='0.035'/></feComponentTransfer></filter><rect width='100%' height='100%' filter='url(#f)'/></svg>");
     }
@@ -28,10 +28,9 @@
       --card:#0f1a2ae6; --card-tint:#0b1422;
       --warn:#fbbf24; --err:#f87171;
       --shadow-strong: 0 10px 18px rgba(0,0,0,.45);
-      --shadow-soft:   0 5px 12px rgba(0,0,0,.35);
+      --shadow-soft: 0 5px 12px rgba(0,0,0,.35);
       --table-row:#0c1423;
     }
-
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%}
     body{
@@ -53,7 +52,6 @@
         radial-gradient(900px 600px at 50% 110%, var(--bg3) 0%, transparent 50%),
         linear-gradient(160deg,#05121a 0%, #0a1826 50%, #0c2036 100%);
     }
-
     .wrap{width:100%;max-width:680px;display:flex;flex-direction:column;gap:8px}
     .card{
       background: linear-gradient(180deg,var(--card) 0%,var(--card-tint) 100%);
@@ -61,14 +59,11 @@
       border:1px solid var(--line); border-radius:10px;
       box-shadow:var(--shadow-strong); padding:12px 10px;
     }
-
     h1{font-size:18px;margin-bottom:2px;display:flex;align-items:center;gap:6px}
     h2{font-size:15px;margin-bottom:6px}
     .byline{color:var(--accent-ink);font-weight:800;margin-bottom:6px;font-size:11px}
-
     .logo{width:20px;height:20px;border-radius:5px;overflow:hidden;display:inline-block}
     .logo img{width:100%;height:100%;object-fit:cover}
-
     form{display:grid;gap:8px}
     .row{display:grid;gap:4px;grid-template-columns:1fr;align-items:center}
     label{color:var(--muted);font-size:11px}
@@ -78,7 +73,6 @@
     }
     [data-theme="dark"] input,[data-theme="dark"] select{background:#0b1422;color:var(--fg);border-color:#1f2a38}
     input:focus,select:focus{border-color:transparent;box-shadow:0 0 0 2px rgba(20,184,166,.22), inset 0 0 0 1px var(--accent)}
-
     .btns{display:flex;gap:6px;margin-top:2px;flex-wrap:wrap}
     button{
       height:30px;border-radius:8px;font-weight:800;cursor:pointer;border:0;padding:0 10px;
@@ -87,7 +81,6 @@
     }
     .btn-mini{height:26px;padding:0 8px;border-radius:7px;font-weight:700;font-size:11px}
     button:hover{transform:translateY(-1px); background-position:right center}
-
     #msg,#lookupMsg,#searchMsg,#loginMsg{
       margin-top:6px;padding:6px;border-radius:8px;border:1px solid var(--line);
       background:#f8fafc;min-height:26px;white-space:pre-wrap;color:#0b1220;font-size:12px;
@@ -99,30 +92,24 @@
     [data-theme="dark"] .msg-ok{background:#062814!important}
     [data-theme="dark"] .msg-warn{background:#2a1f06!important}
     [data-theme="dark"] .msg-err{background:#2a0b0b!important}
-
     .switch{position:relative;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
     .slider{ width:34px;height:18px;border-radius:999px;background:#e5e7eb;border:1px solid #d1d5db; transition:background .18s }
     [data-theme="dark"] .slider{ background:#0b1422; border-color:#1f2a38 }
     .slider::after{ content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;background:#fff;border-radius:999px;transition:left .18s }
     .switch input:checked + .slider{ background:#fde68a; border-color:#f59e0b }
     .switch input:checked + .slider::after{left:18px}
-
     .pill{display:inline-block;padding:1px 6px;border-radius:999px;border:1px solid var(--line);font-size:10px;color:var(--fg);background:#fff;margin-left:6px}
     [data-theme="dark"] .pill{ background:#0b1422 }
-
     .table-wrap{overflow-x:auto}
     .table{width:100%;border-collapse:separate;border-spacing:0 4px;margin-top:4px;min-width:520px}
     .table thead th{text-align:left;font-size:10.5px;color:var(--muted);padding:0 6px}
     .table tbody tr{background:var(--table-row);border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 6px rgba(11,18,32,.06);height:50px}
     .table td{padding:0 8px;font-size:12px;height:50px;vertical-align:middle}
-
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
     .small{font-size:11px;color:var(--muted)}
-
     .status .items{display:grid;gap:6px;grid-template-columns:1fr}
     .pillstat{ border:1px solid var(--line); background:var(--table-row); border-radius:8px; padding:6px 8px; min-height:38px; display:flex; flex-direction:column; justify-content:center }
     .pillstat .k{font-size:10px;color:var(--muted)} .pillstat .v{font-weight:700}
-
     .theme-fab{
       position:fixed; right:12px; bottom:12px; z-index:9999;
       width:40px; height:40px; border-radius:999px; background-image:var(--tri); color:#fff; border:0; box-shadow:0 8px 16px rgba(59,130,246,.3); cursor:pointer;
@@ -130,23 +117,19 @@
     .theme-fab svg{ width:18px; height:18px }
     .icon-sun{display:inline} .icon-moon{display:none}
     [data-theme="dark"] .icon-sun{display:none} [data-theme="dark"] .icon-moon{display:inline}
-
     .logout-fab{
       position:fixed; top:12px; right:12px; z-index:10001;
       width:40px; height:40px; border-radius:999px;
       background-image:var(--tri); color:#fff; border:0; box-shadow:0 8px 16px rgba(59,130,246,.30); cursor:pointer;
     }
-
     .gate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; padding:12px; z-index:10000;
       background:rgba(0,0,0,0.4); backdrop-filter:blur(8px);}
     .gate-card{ width:100%; max-width:340px; border:1px solid var(--line); border-radius:12px; padding:20px; background:var(--card); box-shadow:var(--shadow-strong); backdrop-filter:blur(10px) }
     .gate-title{ display:flex; align-items:center; gap:8px; font-weight:900; font-size:18px; margin-bottom:12px; justify-content:center }
-
     .hide{display:none!important}
   </style>
 </head>
 <body>
-
   <!-- Login Gate -->
   <div id="gate" class="gate">
     <div class="gate-card">
@@ -189,9 +172,11 @@
         <div class="row">
           <label for="type">Type</label>
           <select id="type" required>
-            <option value="A" selected>A</option><option value="AAAA">AAAA</option><option value="CNAME">CNAME</option>
-            <option value="MX">MX</option><option value="TXT">TXT</option>
-            <!-- လိုအပ်ရင် အခြား type တွေ ထည့်ပါ -->
+            <option value="A" selected>A</option>
+            <option value="AAAA">AAAA</option>
+            <option value="CNAME">CNAME</option>
+            <option value="MX">MX</option>
+            <option value="TXT">TXT</option>
           </select>
         </div>
 
@@ -242,7 +227,7 @@
       </div>
     </div>
 
-    <div class="footer" style="text-align:center;padding:10px;font-size:11px;color:var(--muted)">
+    <div style="text-align:center;padding:10px;font-size:11px;color:var(--muted)">
       Developer : PPH DEX 2025
     </div>
   </div>
@@ -259,8 +244,8 @@
   </button>
 
   <script>
-    const API_BASE = "https://pphdevweb.painghein556.workers.dev";
-    const ROOT_DOMAIN = "pphdev.shop"; // လိုအပ်ရင် ပြောင်းပါ
+    const API_BASE = "https://pphdevweb.painghein556.workers.dev/dns";
+    const ROOT_DOMAIN = "pphdev.shop";
 
     const gate = document.getElementById("gate");
     const appWrap = document.getElementById("appWrap");
@@ -268,23 +253,30 @@
     const logoutFab = document.getElementById("logoutFab");
     const loginMsg = document.getElementById("loginMsg");
 
-    // Auth token သိမ်းဖို့
     function getAuthHeader() {
       const token = localStorage.getItem("dnsapi_auth");
       return token ? { "Authorization": `Basic ${token}` } : {};
     }
 
-    // Auto login if saved
-    (function checkSavedAuth() {
+    // Auto login check
+    (function() {
       const token = localStorage.getItem("dnsapi_auth");
       if (token) {
         fetch(API_BASE + "?per_page=1", { headers: getAuthHeader() })
-          .then(r => r.ok ? showApp() : localStorage.removeItem("dnsapi_auth"))
+          .then(r => {
+            if (r.ok) {
+              showApp();
+              loadStatus();
+              searchRecords();
+            } else {
+              localStorage.removeItem("dnsapi_auth");
+            }
+          })
           .catch(() => localStorage.removeItem("dnsapi_auth"));
       }
     })();
 
-    // Login form
+    // Login
     document.getElementById("loginForm").addEventListener("submit", e => {
       e.preventDefault();
       const user = document.getElementById("loginUser").value.trim();
@@ -335,7 +327,7 @@
       localStorage.setItem("theme", next);
     });
 
-    // Status (simple)
+    // Status
     async function loadStatus() {
       try {
         const r = await fetch("https://1.1.1.1/cdn-cgi/trace");
@@ -346,85 +338,95 @@
       } catch {}
     }
 
-    // DNS Form
+    // Add/Update Record
     document.getElementById("dnsForm").addEventListener("submit", async e => {
       e.preventDefault();
-      const type = document.getElementById("type").value;
       let name = document.getElementById("host").value.trim();
+      const type = document.getElementById("type").value;
       const content = document.getElementById("content").value.trim();
       const proxied = document.getElementById("proxied").checked;
 
       if (!name) name = "@";
-      if (!name.includes(".")) name += "." + ROOT_DOMAIN;
+      if (!name.endsWith("." + ROOT_DOMAIN)) name += "." + ROOT_DOMAIN;
 
-      const payload = { type, name, content, proxied, ttl: 1 };
+      const payload = [{ type, name, content, proxied, ttl: 1 }];
 
-      const res = await fetch(API_BASE, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...getAuthHeader() },
-        body: JSON.stringify([payload])
-      });
+      try {
+        const res = await fetch(API_BASE, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", ...getAuthHeader() },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        const msg = document.getElementById("msg");
 
-      const data = await res.json();
-      const msg = document.getElementById("msg");
-      if (data.success) {
-        msg.textContent = "DNS record ထည့်ပြီးပါပြီ ✅";
-        msg.className = "msg-ok";
-        e.target.reset();
-        searchRecords();
-      } else {
-        msg.textContent = "မအောင်မြင်ပါ ❌ " + (data.errors?.[0]?.message || "");
-        msg.className = "msg-err";
+        if (data.success) {
+          msg.textContent = "အောင်မြင်စွာ ထည့်ပြီးပါပြီ ✅";
+          msg.className = "msg-ok";
+          e.target.reset();
+          searchRecords();
+        } else {
+          msg.textContent = "မအောင်မြင်ပါ ❌ " + (data.errors?.[0]?.message || "");
+          msg.className = "msg-err";
+        }
+      } catch {
+        document.getElementById("msg").textContent = "Network error";
+        document.getElementById("msg").className = "msg-err";
       }
     });
 
     // Search Records
     async function searchRecords() {
-      const query = document.getElementById("searchName").value.trim();
       let url = API_BASE + "?per_page=100";
-      if (query) url += `&name=${encodeURIComponent(query.includes(".") ? query : query + "." + ROOT_DOMAIN)}`;
+      const query = document.getElementById("searchName").value.trim();
+      if (query) {
+        const searchName = query.includes(".") ? query : query + "." + ROOT_DOMAIN;
+        url += "&name=" + encodeURIComponent(searchName);
+      }
 
-      const res = await fetch(url, { headers: getAuthHeader() });
-      const data = await res.json();
-      const tbody = document.getElementById("recordsBody");
-      tbody.innerHTML = "";
+      try {
+        const res = await fetch(url, { headers: getAuthHeader() });
+        const data = await res.json();
+        const tbody = document.getElementById("recordsBody");
+        tbody.innerHTML = "";
 
-      if (data.result) {
-        data.result.forEach(rec => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${rec.type}</td>
-            <td class="mono">${rec.name}</td>
-            <td class="mono">${rec.content}</td>
-            <td>${rec.proxied ? "🟠 Proxied" : "⚫ DNS Only"}</td>
-            <td><button class="btn-mini" onclick="deleteRecord('${rec.id}')">Delete</button></td>
-          `;
-          tbody.appendChild(tr);
-        });
+        if (data.result && data.result.length > 0) {
+          data.result.forEach(rec => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${rec.type}</td>
+              <td class="mono">${rec.name}</td>
+              <td class="mono">${rec.content}</td>
+              <td>${rec.proxied ? "🟠 Proxied" : "⚫ DNS Only"}</td>
+              <td><button class="btn-mini" onclick="deleteRecord('${rec.id}')">Delete</button></td>
+            `;
+            tbody.appendChild(tr);
+          });
+        } else {
+          tbody.innerHTML = "<tr><td colspan='5' style='text-align:center'>No records found</td></tr>";
+        }
+      } catch {
+        document.getElementById("recordsBody").innerHTML = "<tr><td colspan='5'>Error loading</td></tr>";
       }
     }
 
-    window.deleteRecord = async (id) => {
-      if (!confirm("ဒီ record ကို ဖျက်မှာလား?")) return;
-      const res = await fetch(API_BASE + "/" + id, {
-        method: "DELETE",
-        headers: getAuthHeader()
-      });
-      if (res.ok) {
+    window.deleteRecord = async id => {
+      if (!confirm("ဖျက်မှာလား?")) return;
+      try {
+        await fetch(API_BASE + "/" + id, { method: "DELETE", headers: getAuthHeader() });
         searchRecords();
-      }
+      } catch {}
     };
 
-    document.getElementById("searchBtn").addEventListener("click", searchRecords);
-    document.getElementById("clearBtn").addEventListener("click", () => {
+    document.getElementById("searchBtn").onclick = searchRecords;
+    document.getElementById("clearBtn").onclick = () => {
       document.getElementById("searchName").value = "";
       searchRecords();
-    });
+    };
 
-    // Initial load
-    if (!gate.classList.contains("hide")) {
-      searchRecords(); // မရှိရင် မခေါ်ပါ
-    }
+    // Start
+    searchRecords();
+    loadStatus();
   </script>
 </body>
 </html>
