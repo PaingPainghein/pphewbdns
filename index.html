@@ -52,84 +52,73 @@
         radial-gradient(900px 600px at 50% 110%, var(--bg3) 0%, transparent 50%),
         linear-gradient(160deg,#05121a 0%, #0a1826 50%, #0c2036 100%);
     }
-    .wrap{width:100%;max-width:680px;display:flex;flex-direction:column;gap:8px}
+    .wrap{width:100%;max-width:680px;display:flex;flex-direction:column;gap:12px}
     .card{
       background: linear-gradient(180deg,var(--card) 0%,var(--card-tint) 100%);
-      backdrop-filter:blur(10px);
-      border:1px solid var(--line); border-radius:10px;
-      box-shadow:var(--shadow-strong); padding:12px 10px;
+      backdrop-filter:blur(12px);
+      border:1px solid var(--line); border-radius:12px;
+      box-shadow:var(--shadow-strong); padding:16px 14px;
     }
-    h1{font-size:18px;margin-bottom:2px;display:flex;align-items:center;gap:6px}
-    h2{font-size:15px;margin-bottom:6px}
-    .byline{color:var(--accent-ink);font-weight:800;margin-bottom:6px;font-size:11px}
-    .logo{width:20px;height:20px;border-radius:5px;overflow:hidden;display:inline-block}
+    h1{font-size:19px;margin-bottom:4px;display:flex;align-items:center;gap:8px;font-weight:800}
+    h2{font-size:16px;margin-bottom:8px;font-weight:700}
+    .byline{color:var(--accent-ink);font-weight:800;margin-bottom:8px;font-size:12px}
+    .logo{width:22px;height:22px;border-radius:6px;overflow:hidden;display:inline-block}
     .logo img{width:100%;height:100%;object-fit:cover}
-    form{display:grid;gap:8px}
-    .row{display:grid;gap:4px;grid-template-columns:1fr;align-items:center}
-    label{color:var(--muted);font-size:11px}
+    form{display:grid;gap:10px}
+    .row{display:grid;gap:5px}
+    label{color:var(--muted);font-size:12px;font-weight:600}
     input,select{
-      width:100%;height:30px;padding:4px 8px;border:1px solid var(--line);border-radius:8px;
-      font-size:13px;background:#fff;color:#0b1220;outline:none;transition:box-shadow .18s;
+      width:100%;height:36px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;
+      font-size:14px;background:#fff;color:#0b1220;outline:none;transition:all .2s;
     }
     [data-theme="dark"] input,[data-theme="dark"] select{background:#0b1422;color:var(--fg);border-color:#1f2a38}
-    input:focus,select:focus{border-color:transparent;box-shadow:0 0 0 2px rgba(20,184,166,.22), inset 0 0 0 1px var(--accent)}
-    .btns{display:flex;gap:6px;margin-top:2px;flex-wrap:wrap}
+    input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(20,184,166,.15)}
+    .btns{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
     button{
-      height:30px;border-radius:8px;font-weight:800;cursor:pointer;border:0;padding:0 10px;
-      background-image:var(--tri); background-size:200% 100%; color:#fff; box-shadow:0 5px 10px rgba(11,18,32,.15);
-      transition: background-position .2s ease, transform .12s ease; font-size:13px;
+      height:36px;border-radius:10px;font-weight:800;cursor:pointer;border:0;padding:0 16px;
+      background-image:var(--tri); background-size:200% 100%; color:#fff; box-shadow:0 4px 10px rgba(11,18,32,.15);
+      transition: all .2s; font-size:14px;flex:1;
     }
-    .btn-mini{height:26px;padding:0 8px;border-radius:7px;font-weight:700;font-size:11px}
-    button:hover{transform:translateY(-1px); background-position:right center}
-    #msg,#lookupMsg,#searchMsg,#loginMsg{
-      margin-top:6px;padding:6px;border-radius:8px;border:1px solid var(--line);
-      background:#f8fafc;min-height:26px;white-space:pre-wrap;color:#0b1220;font-size:12px;
+    button:hover{transform:translateY(-2px); background-position:right center}
+    .btn-mini{height:30px;padding:0 12px;border-radius:8px;font-weight:700;font-size:12px;min-width:60px}
+    .btn-edit{background:#6366f1}
+    .btn-delete{background:#ef4444}
+    #msg,#loginMsg{
+      margin-top:8px;padding:10px;border-radius:10px;border:1px solid var(--line);
+      background:#f8fafc;min-height:30px;white-space:pre-wrap;color:#0b1220;font-size:13px;font-weight:600;
     }
-    [data-theme="dark"] #msg,[data-theme="dark"] #lookupMsg,[data-theme="dark"] #searchMsg,[data-theme="dark"] #loginMsg{ background:#0b1422; color:#e5eefc; border-color:#1f2a38; }
+    [data-theme="dark"] #msg,[data-theme="dark"] #loginMsg{ background:#0b1422; color:#e5eefc; border-color:#1f2a38; }
     .msg-ok{border-color:var(--ok)!important;background:#ecfdf5!important;color:var(--ok-bright)!important}
-    .msg-warn{border-color:var(--warn)!important;background:#fffbeb!important}
     .msg-err{border-color:var(--err)!important;background:#fef2f2!important;color:#dc2626!important}
-    [data-theme="dark"] .msg-ok{background:#062814!important}
-    [data-theme="dark"] .msg-warn{background:#2a1f06!important}
-    [data-theme="dark"] .msg-err{background:#2a0b0b!important}
-    .switch{position:relative;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
-    .slider{ width:34px;height:18px;border-radius:999px;background:#e5e7eb;border:1px solid #d1d5db; transition:background .18s }
+    .switch{position:relative;display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+    .slider{ width:40px;height:22px;border-radius:999px;background:#e5e7eb;border:1px solid #d1d5db; transition:background .2s }
     [data-theme="dark"] .slider{ background:#0b1422; border-color:#1f2a38 }
-    .slider::after{ content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;background:#fff;border-radius:999px;transition:left .18s }
-    .switch input:checked + .slider{ background:#fde68a; border-color:#f59e0b }
-    .switch input:checked + .slider::after{left:18px}
-    .pill{display:inline-block;padding:1px 6px;border-radius:999px;border:1px solid var(--line);font-size:10px;color:var(--fg);background:#fff;margin-left:6px}
-    [data-theme="dark"] .pill{ background:#0b1422 }
-    .table-wrap{overflow-x:auto}
-    .table{width:100%;border-collapse:separate;border-spacing:0 4px;margin-top:4px;min-width:520px}
-    .table thead th{text-align:left;font-size:10.5px;color:var(--muted);padding:0 6px}
-    .table tbody tr{background:var(--table-row);border:1px solid var(--line);border-radius:8px;box-shadow:0 2px 6px rgba(11,18,32,.06);height:50px}
-    .table td{padding:0 8px;font-size:12px;height:50px;vertical-align:middle}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
-    .small{font-size:11px;color:var(--muted)}
-    .status .items{display:grid;gap:6px;grid-template-columns:1fr}
-    .pillstat{ border:1px solid var(--line); background:var(--table-row); border-radius:8px; padding:6px 8px; min-height:38px; display:flex; flex-direction:column; justify-content:center }
-    .pillstat .k{font-size:10px;color:var(--muted)} .pillstat .v{font-weight:700}
-    .theme-fab{
-      position:fixed; right:12px; bottom:12px; z-index:9999;
-      width:40px; height:40px; border-radius:999px; background-image:var(--tri); color:#fff; border:0; box-shadow:0 8px 16px rgba(59,130,246,.3); cursor:pointer;
+    .slider::after{ content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:999px;transition:left .2s }
+    .switch input:checked + .slider{ background:var(--accent) }
+    .switch input:checked + .slider::after{left:20px}
+    .table-wrap{overflow-x:auto;margin-top:8px}
+    .table{width:100%;border-collapse:separate;border-spacing:0 6px;min-width:600px}
+    .table thead th{text-align:left;font-size:11px;color:var(--muted);padding:8px 10px;font-weight:600}
+    .table tbody tr{background:var(--table-row);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow-soft);height:56px;transition:transform .15s}
+    .table tbody tr:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(11,18,32,.12)}
+    .table td{padding:0 10px;font-size:13px;vertical-align:middle}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;font-size:12px}
+    .actions{display:flex;gap:6px;justify-content:flex-end}
+    .theme-fab,.logout-fab{
+      position:fixed;z-index:9999;width:44px;height:44px;border-radius:999px;
+      background-image:var(--tri); color:#fff; border:0; box-shadow:0 6px 16px rgba(0,0,0,.2); cursor:pointer;transition:all .2s;
     }
-    .theme-fab svg{ width:18px; height:18px }
-    .icon-sun{display:inline} .icon-moon{display:none}
-    [data-theme="dark"] .icon-sun{display:none} [data-theme="dark"] .icon-moon{display:inline}
-    .logout-fab{
-      position:fixed; top:12px; right:12px; z-index:10001;
-      width:40px; height:40px; border-radius:999px;
-      background-image:var(--tri); color:#fff; border:0; box-shadow:0 8px 16px rgba(59,130,246,.30); cursor:pointer;
-    }
-    .gate{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; padding:12px; z-index:10000;
-      background:rgba(0,0,0,0.4); backdrop-filter:blur(8px);}
-    .gate-card{ width:100%; max-width:340px; border:1px solid var(--line); border-radius:12px; padding:20px; background:var(--card); box-shadow:var(--shadow-strong); backdrop-filter:blur(10px) }
-    .gate-title{ display:flex; align-items:center; gap:8px; font-weight:900; font-size:18px; margin-bottom:12px; justify-content:center }
+    .theme-fab{right:16px;bottom:16px}
+    .logout-fab{top:16px;right:16px}
+    .theme-fab:hover,.logout-fab:hover{transform:scale(1.1)}
+    .gate{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:16px;z-index:10000;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px)}
+    .gate-card{width:100%;max-width:360px;border:1px solid var(--line);border-radius:14px;padding:24px;background:var(--card);box-shadow:var(--shadow-strong);backdrop-filter:blur(12px)}
+    .gate-title{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px;margin-bottom:16px;justify-content:center}
     .hide{display:none!important}
   </style>
 </head>
 <body>
+
   <!-- Login Gate -->
   <div id="gate" class="gate">
     <div class="gate-card">
@@ -140,13 +129,13 @@
       <form id="loginForm" autocomplete="off">
         <div class="row">
           <label for="loginUser">Username</label>
-          <input id="loginUser" type="text" placeholder="dnsapi" required />
+          <input id="loginUser" type="text" placeholder="Username" required />
         </div>
         <div class="row">
           <label for="loginPass">Password</label>
           <input id="loginPass" type="password" placeholder="••••••" required />
         </div>
-        <div class="btns"><button type="submit" style="width:100%">Login</button></div>
+        <div class="btns"><button type="submit">Login</button></div>
         <div id="loginMsg"></div>
       </form>
     </div>
@@ -157,7 +146,6 @@
     <div class="card status">
       <h2>Status</h2>
       <div class="items">
-        <div class="pillstat"><div class="k">Server Time</div><div id="serverTime" class="v mono">—</div></div>
         <div class="pillstat"><div class="k">Your IP</div><div id="yourIp" class="v mono">—</div></div>
         <div class="pillstat"><div class="k">Location</div><div id="yourLoc" class="v">—</div></div>
       </div>
@@ -169,77 +157,82 @@
       <p class="byline">Power By : PPH DEX 2025</p>
 
       <form id="dnsForm">
+        <input type="hidden" id="editId" value="" />
         <div class="row">
           <label for="type">Type</label>
           <select id="type" required>
-            <option value="A" selected>A</option>
+            <option value="A">A</option>
             <option value="AAAA">AAAA</option>
             <option value="CNAME">CNAME</option>
             <option value="MX">MX</option>
             <option value="TXT">TXT</option>
+            <option value="SRV">SRV</option>
+            <option value="CAA">CAA</option>
           </select>
         </div>
-
         <div class="row">
-          <label for="host">Host</label>
-          <input id="host" type="text" placeholder="sub (or @)" required />
+          <label for="host">Host (sub or @)</label>
+          <input id="host" type="text" placeholder="app or @" required />
         </div>
-
         <div class="row">
           <label for="content">Content</label>
-          <input id="content" type="text" placeholder="e.g. 1.2.3.4" required />
+          <input id="content" type="text" placeholder="e.g. 1.1.1.1" required />
         </div>
-
-        <div class="row" id="proxiedRow">
-          <label for="proxied">Proxy through Cloudflare</label>
+        <div class="row">
+          <label>Proxy through Cloudflare</label>
           <label class="switch">
             <input id="proxied" type="checkbox" checked />
             <span class="slider"></span>
           </label>
         </div>
-
         <div class="btns">
-          <button type="submit">Add / Update</button>
-          <button type="button" id="resetBtn">Reset</button>
+          <button type="submit" id="submitBtn">Add Record</button>
+          <button type="button" id="cancelEdit" class="btn-mini hide">Cancel</button>
         </div>
         <div id="msg"></div>
       </form>
     </div>
 
-    <!-- Search Table -->
+    <!-- Records Table -->
     <div class="card">
       <h2>DNS Records</h2>
       <div class="row">
-        <label for="searchName">Search by name</label>
-        <input id="searchName" placeholder="e.g. app" />
+        <label for="searchName">Search</label>
+        <input id="searchName" placeholder="e.g. app or app.pphdev.shop" />
       </div>
       <div class="btns">
         <button type="button" id="searchBtn">Search</button>
         <button type="button" id="clearBtn">Clear</button>
       </div>
-      <div id="searchMsg" class="small">Results from Cloudflare DNS</div>
 
       <div class="table-wrap">
         <table class="table">
-          <thead><tr><th>Type</th><th>Name</th><th>Content</th><th>Proxy</th><th>Actions</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Name</th>
+              <th>Content</th>
+              <th>Proxy</th>
+              <th style="text-align:right">Actions</th>
+            </tr>
+          </thead>
           <tbody id="recordsBody"></tbody>
         </table>
       </div>
     </div>
 
-    <div style="text-align:center;padding:10px;font-size:11px;color:var(--muted)">
+    <div style="text-align:center;padding:12px;font-size:12px;color:var(--muted)">
       Developer : PPH DEX 2025
     </div>
   </div>
 
-  <!-- Theme Toggle -->
-  <button id="themeToggle" class="theme-fab hide" aria-label="Toggle theme">
+  <!-- Theme & Logout -->
+  <button id="themeToggle" class="theme-fab hide">
     <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
     <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
   </button>
 
-  <!-- Logout -->
-  <button id="logoutFab" class="logout-fab hide" aria-label="Logout">
+  <button id="logoutFab" class="logout-fab hide">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 16l4-4m0 0l-4-4m4 4H7"/></svg>
   </button>
 
@@ -249,35 +242,29 @@
 
     const gate = document.getElementById("gate");
     const appWrap = document.getElementById("appWrap");
-    const themeToggle = document.getElementById("themeToggle");
-    const logoutFab = document.getElementById("logoutFab");
     const loginMsg = document.getElementById("loginMsg");
+    const msg = document.getElementById("msg");
+    const submitBtn = document.getElementById("submitBtn");
+    const cancelEdit = document.getElementById("cancelEdit");
+    const editIdInput = document.getElementById("editId");
 
     function getAuthHeader() {
       const token = localStorage.getItem("dnsapi_auth");
       return token ? { "Authorization": `Basic ${token}` } : {};
     }
 
-    // Auto login check
+    // Auto login
     (function() {
       const token = localStorage.getItem("dnsapi_auth");
       if (token) {
         fetch(API_BASE + "?per_page=1", { headers: getAuthHeader() })
-          .then(r => {
-            if (r.ok) {
-              showApp();
-              loadStatus();
-              searchRecords();
-            } else {
-              localStorage.removeItem("dnsapi_auth");
-            }
-          })
+          .then(r => r.ok && showApp())
           .catch(() => localStorage.removeItem("dnsapi_auth"));
       }
     })();
 
     // Login
-    document.getElementById("loginForm").addEventListener("submit", e => {
+    document.getElementById("loginForm").onsubmit = e => {
       e.preventDefault();
       const user = document.getElementById("loginUser").value.trim();
       const pass = document.getElementById("loginPass").value;
@@ -292,40 +279,38 @@
             showApp();
             loadStatus();
             searchRecords();
-          } else {
-            throw new Error();
-          }
+          } else throw "";
         })
         .catch(() => {
           localStorage.removeItem("dnsapi_auth");
           loginMsg.textContent = "Username သို့မဟုတ် Password မမှန်ပါ ❌";
           loginMsg.className = "msg-err";
         });
-    });
+    };
 
     function showApp() {
       gate.classList.add("hide");
       appWrap.classList.remove("hide");
-      themeToggle.classList.remove("hide");
-      logoutFab.classList.remove("hide");
+      document.getElementById("themeToggle").classList.remove("hide");
+      document.getElementById("logoutFab").classList.remove("hide");
     }
 
-    logoutFab.addEventListener("click", () => {
+    document.getElementById("logoutFab").onclick = () => {
       localStorage.removeItem("dnsapi_auth");
       location.reload();
-    });
+    };
 
     // Theme
     (function() {
       const saved = localStorage.getItem("theme");
       if (saved) document.documentElement.setAttribute("data-theme", saved);
     })();
-    themeToggle.addEventListener("click", () => {
+    document.getElementById("themeToggle").onclick = () => {
       const cur = document.documentElement.getAttribute("data-theme") || "light";
       const next = cur === "light" ? "dark" : "light";
       document.documentElement.setAttribute("data-theme", next);
       localStorage.setItem("theme", next);
-    });
+    };
 
     // Status
     async function loadStatus() {
@@ -338,50 +323,99 @@
       } catch {}
     }
 
-    // Add/Update Record
-    document.getElementById("dnsForm").addEventListener("submit", async e => {
+    // Form Submit (Add or Update)
+    document.getElementById("dnsForm").onsubmit = async e => {
       e.preventDefault();
       let name = document.getElementById("host").value.trim();
       const type = document.getElementById("type").value;
       const content = document.getElementById("content").value.trim();
       const proxied = document.getElementById("proxied").checked;
+      const editId = editIdInput.value;
 
       if (!name) name = "@";
       if (!name.endsWith("." + ROOT_DOMAIN)) name += "." + ROOT_DOMAIN;
 
-      const payload = [{ type, name, content, proxied, ttl: 1 }];
+      const payload = { type, name, content, proxied, ttl: 1 };
 
       try {
-        const res = await fetch(API_BASE, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", ...getAuthHeader() },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-        const msg = document.getElementById("msg");
+        let res;
+        if (editId) {
+          // Update (PATCH)
+          res = await fetch(API_BASE + "/" + editId, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", ...getAuthHeader() },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          // Add (POST)
+          res = await fetch(API_BASE, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", ...getAuthHeader() },
+            body: JSON.stringify([payload])
+          });
+        }
 
+        const data = await res.json();
         if (data.success) {
-          msg.textContent = "အောင်မြင်စွာ ထည့်ပြီးပါပြီ ✅";
+          msg.textContent = editId ? "Updated successfully ✅" : "Added successfully ✅";
           msg.className = "msg-ok";
-          e.target.reset();
+          dnsForm.reset();
+          cancelEditMode();
           searchRecords();
         } else {
-          msg.textContent = "မအောင်မြင်ပါ ❌ " + (data.errors?.[0]?.message || "");
+          msg.textContent = "Failed ❌ " + (data.errors?.[0]?.message || "");
           msg.className = "msg-err";
         }
       } catch {
-        document.getElementById("msg").textContent = "Network error";
-        document.getElementById("msg").className = "msg-err";
+        msg.textContent = "Network error";
+        msg.className = "msg-err";
       }
-    });
+    };
 
-    // Search Records
+    // Edit button
+    window.editRecord = rec => {
+      document.getElementById("type").value = rec.type;
+      document.getElementById("host").value = rec.name.replace("." + ROOT_DOMAIN, "") === "@" ? "@" : rec.name.replace("." + ROOT_DOMAIN, "");
+      document.getElementById("content").value = rec.content;
+      document.getElementById("proxied").checked = rec.proxied;
+      editIdInput.value = rec.id;
+
+      submitBtn.textContent = "Update Record";
+      cancelEdit.classList.remove("hide");
+      msg.textContent = "Editing: " + rec.name;
+      msg.className = "msg-warn";
+      window.scrollTo(0, 0);
+    };
+
+    // Cancel edit
+    cancelEdit.onclick = () => {
+      cancelEditMode();
+      dnsForm.reset();
+      msg.textContent = "";
+    };
+
+    function cancelEditMode() {
+      editIdInput.value = "";
+      submitBtn.textContent = "Add Record";
+      cancelEdit.classList.add("hide");
+    }
+
+    // Delete
+    window.deleteRecord = async id => {
+      if (!confirm("ဒီ record ကို ဖျက်မှာလား?")) return;
+      try {
+        await fetch(API_BASE + "/" + id, { method: "DELETE", headers: getAuthHeader() });
+        searchRecords();
+      } catch {}
+    };
+
+    // Search
     async function searchRecords() {
-      let url = API_BASE + "?per_page=100";
+      let url = API_BASE + "?per_page=200";
       const query = document.getElementById("searchName").value.trim();
       if (query) {
-        const searchName = query.includes(".") ? query : query + "." + ROOT_DOMAIN;
-        url += "&name=" + encodeURIComponent(searchName);
+        const name = query.includes(".") ? query : query + "." + ROOT_DOMAIN;
+        url += "&name=" + encodeURIComponent(name);
       }
 
       try {
@@ -390,7 +424,7 @@
         const tbody = document.getElementById("recordsBody");
         tbody.innerHTML = "";
 
-        if (data.result && data.result.length > 0) {
+        if (data.result?.length) {
           data.result.forEach(rec => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
@@ -398,25 +432,20 @@
               <td class="mono">${rec.name}</td>
               <td class="mono">${rec.content}</td>
               <td>${rec.proxied ? "🟠 Proxied" : "⚫ DNS Only"}</td>
-              <td><button class="btn-mini" onclick="deleteRecord('${rec.id}')">Delete</button></td>
+              <td class="actions">
+                <button class="btn-mini btn-edit" onclick='editRecord(${JSON.stringify(rec)})'>Edit</button>
+                <button class="btn-mini btn-delete" onclick="deleteRecord('${rec.id}')">Delete</button>
+              </td>
             `;
             tbody.appendChild(tr);
           });
         } else {
-          tbody.innerHTML = "<tr><td colspan='5' style='text-align:center'>No records found</td></tr>";
+          tbody.innerHTML = "<tr><td colspan='5' style='text-align:center;padding:20px'>No records found</td></tr>";
         }
       } catch {
-        document.getElementById("recordsBody").innerHTML = "<tr><td colspan='5'>Error loading</td></tr>";
+        document.getElementById("recordsBody").innerHTML = "<tr><td colspan='5'>Error loading records</td></tr>";
       }
     }
-
-    window.deleteRecord = async id => {
-      if (!confirm("ဖျက်မှာလား?")) return;
-      try {
-        await fetch(API_BASE + "/" + id, { method: "DELETE", headers: getAuthHeader() });
-        searchRecords();
-      } catch {}
-    };
 
     document.getElementById("searchBtn").onclick = searchRecords;
     document.getElementById("clearBtn").onclick = () => {
@@ -424,7 +453,7 @@
       searchRecords();
     };
 
-    // Start
+    // Initial
     searchRecords();
     loadStatus();
   </script>
